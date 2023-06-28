@@ -75,6 +75,7 @@ class Bot:
         self,
         api_token,
         api_timeout=API_TIMEOUT,
+        proxy=None,
         name=None,
         json_serialize=json.dumps,
         json_deserialize=json.loads,
@@ -83,6 +84,7 @@ class Bot:
     ):
         self.api_token = api_token
         self.api_timeout = api_timeout
+        self.proxy = proxy
         self.name = name
         self.json_serialize = json_serialize
         self.json_deserialize = json_deserialize
@@ -142,7 +144,7 @@ class Bot:
         """
         loop = asyncio.get_event_loop()
 
-        logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
+        # logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
 
         if reload is None:
             reload = debug
@@ -425,7 +427,7 @@ class Bot:
         url = "{0}/bot{1}/{2}".format(API_URL, self.api_token, method)
         logger.debug("api_call %s, %s", method, params)
 
-        response = await self.session.post(url, data=params)
+        response = await self.session.post(url, data=params, proxy=self.proxy)
 
         if response.status == 200:
             return await response.json(loads=self.json_deserialize)
