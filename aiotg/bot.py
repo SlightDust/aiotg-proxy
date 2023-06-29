@@ -144,7 +144,7 @@ class Bot:
         """
         loop = asyncio.get_event_loop()
 
-        # logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
+        logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
 
         if reload is None:
             reload = debug
